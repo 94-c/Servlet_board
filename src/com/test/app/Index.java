@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/")
+@WebServlet("/index.do")
 public class Index extends HttpServlet {
 
     @Override
@@ -17,4 +17,5 @@ public class Index extends HttpServlet {
         RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/index.jsp");
         dispatcher.forward(req, resp);
     }
+
 }
