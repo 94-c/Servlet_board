@@ -1,0 +1,15 @@
+CREATE TABLE tblUsers(
+	id varchar(30) PRIMARY KEY,  				-- 유저 아이디
+	pw varchar(30) NOT NULL, 				-- 유저 비밀번호
+	name varchar(30) NOT NULL,     				-- 유저 이름
+	lv int(1) DEFAULT (1) NOT NULL, 			-- 유저 등급
+	regdate TIMESTAMP DEFAULT NOW() 			-- 생성일
+);
+
+INSERT INTO servlet_test.tblUsers(id, pw, name, lv, regdate) VALUES('hong', '1111', '홍길동', DEFAULT, DEFAULT);
+INSERT INTO servlet_test.tblUsers(id, pw, name, lv, regdate) VALUES('kim', '1111', '최우우', DEFAULT, DEFAULT);
+INSERT INTO servlet_test.tblUsers(id, pw, name, lv, regdate) VALUES('admin', '1111', '관리자', 3, DEFAULT);
+
+SELECT * FROM servlet_test.tblUsers;
+
+DROP TABLE tblUsers;
