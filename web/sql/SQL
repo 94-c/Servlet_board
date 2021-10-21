@@ -13,3 +13,19 @@ INSERT INTO servlet_test.tblUsers(id, pw, name, lv, regdate) VALUES('admin', '11
 SELECT * FROM servlet_test.tblUsers;
 
 DROP TABLE tblUsers;
+
+select * from tblusers;
+
+create table board(
+  seq int primary key,                              -- 글번호(PK)
+  id varchar(30) not null references tblusers(id),  -- 아이디(Fk)
+  subject varchar(500) not null,                    -- 제목
+  content varchar(400) not null,                    -- 내용
+  regdate TIMESTAMP default now() not null,         --작성시간
+  readcount int default 0 not null,                 -- 조회수
+  tag varchar(1) not null check (tag in ('y', 'n') )    -- 글내용에 HTML 태그 허용 유무
+);
+
+create sequence seqBoards;
+
+commit ;

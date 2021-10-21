@@ -1,6 +1,6 @@
-package com.test.app.member.dao;
+package com.test.app.dao;
 
-import com.test.app.member.dto.MemberDTO;
+import com.test.app.dto.MemberDTO;
 import com.test.common.DBUtil;
 
 import java.sql.Connection;

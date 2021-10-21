@@ -5,9 +5,9 @@
 		<nav>
 			<ul>
 				<li><img src="/myapp/asset/images/logo.png"></li>
-				<li onclick="location.href='/index.do';" title="시작 페이지">Home</li>
+				<li onclick="location.href='/myapp/index.do';" title="시작 페이지">Home</li>
 				<li>Something</li>
-				<li onclick="location.href='/board/list.do';" title="게시판">Board</li>
+				<li onclick="location.href='/myapp/board/list.do';" title="게시판">Board</li>
 			</ul>
 		</nav>
 		<div class="auth">

@@ -1,11 +1,10 @@
 package com.test.app.member;
 
-import com.test.app.member.dao.MemberDAO;
-import com.test.app.member.dto.MemberDTO;
+import com.test.app.dao.MemberDAO;
+import com.test.app.dto.MemberDTO;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

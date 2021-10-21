@@ -1,4 +1,4 @@
-package com.test.app.member.dto;
+package com.test.app.dto;
 
 public class MemberDTO {
 
