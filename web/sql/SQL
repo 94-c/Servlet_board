@@ -1,31 +1,28 @@
-CREATE TABLE tblUsers(
-	id varchar(30) PRIMARY KEY,  				-- 유저 아이디
-	pw varchar(30) NOT NULL, 				-- 유저 비밀번호
-	name varchar(30) NOT NULL,     				-- 유저 이름
-	lv int(1) DEFAULT (1) NOT NULL, 			-- 유저 등급
-	regdate TIMESTAMP DEFAULT NOW() 			-- 생성일
+create table tblUsers (
+    id varchar(30) primary key,              -- 아이디 (PK)
+    pw varchar(30) not null,                 -- 비밀번호
+    name varchar(30) not null,               -- 이름
+    lv int(1) default (1) not null,        -- 등급(권한)
+    regdate date DEFAULT now() not null     -- 가입일자
 );
 
-INSERT INTO servlet_test.tblUsers(id, pw, name, lv, regdate) VALUES('hong', '1111', '홍길동', DEFAULT, DEFAULT);
-INSERT INTO servlet_test.tblUsers(id, pw, name, lv, regdate) VALUES('kim', '1111', '최우우', DEFAULT, DEFAULT);
-INSERT INTO servlet_test.tblUsers(id, pw, name, lv, regdate) VALUES('admin', '1111', '관리자', 3, DEFAULT);
+insert into tblUsers values ('hong', '1111', '홍길동', default, default);
+insert into tblUsers values ('kim', '1111', '아무개', default, default);
+insert into tblUsers values ('admin', '1111', '관리자', 3, default);
 
-SELECT * FROM servlet_test.tblUsers;
+SELECT * FROM tblUsers;
 
-DROP TABLE tblUsers;
-
-select * from tblusers;
-
-create table board(
-  seq int primary key,                              -- 글번호(PK)
-  id varchar(30) not null references tblusers(id),  -- 아이디(Fk)
-  subject varchar(500) not null,                    -- 제목
-  content varchar(400) not null,                    -- 내용
-  regdate TIMESTAMP default now() not null,         --작성시간
-  readcount int default 0 not null,                 -- 조회수
-  tag varchar(1) not null check (tag in ('y', 'n') )    -- 글내용에 HTML 태그 허용 유무
+-- 게시판 테이블
+create table tblBoards (
+    seq int(30) primary key,                             -- 글번호(PK)
+    id varchar(30) not null,   -- 아이디(FK)
+    subject varchar(500) not null,                     -- 제목
+    content varchar(400) not null,                     -- 내용
+    regdate date default now() not null,              -- 작성시각
+    readcount int(30) default 0 not null,                -- 조회수
+    tag varchar(1) not null check(tag in ('y', 'n'))   -- 글내용에 HTML 태그 허용 유무
 );
 
-create sequence seqBoards;
 
-commit ;
+ALTER TABLE tblBoards
+ADD FOREIGN KEY (id) REFERENCES tblUsers(id);

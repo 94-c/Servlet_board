@@ -18,7 +18,7 @@
         <button type="button" class="btn btn-default"
                 onclick="location.href='/myapp/member/loginok.do?id=hong&pw=1111';">홍길동</button>
         <button type="button" class="btn btn-default"
-                onclick="location.href='/myapp/member/loginok.do?id=kim&pw=1111';">최우우</button>
+                onclick="location.href='/myapp/member/loginok.do?id=kim&pw=1111';">아무개</button>
         <button type="button" class="btn btn-default"
                 onclick="location.href='/myapp/member/loginok.do?id=admin&pw=1111';">관리자</button>
     </div>

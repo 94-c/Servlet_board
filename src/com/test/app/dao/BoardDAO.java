@@ -29,7 +29,7 @@ public class BoardDAO {
 
         try {
 
-            String sql = "select * from board order by seq desc";
+            String sql = "select * from tblboards inner join tblusers on tblboards.id = tblusers.id order by seq desc";
 
             pstmt = conn.prepareStatement(sql);
 
@@ -49,7 +49,7 @@ public class BoardDAO {
                 dto.setSubject(rs.getString("subject"));
                 dto.setReadcount(rs.getString("readcount"));
                 dto.setRegdate(rs.getString("regdate"));
-                dto.setIsnew(rs.getString("isnew")); // 글쓰고 난뒤 며칠이 지났는지 시간
+                // dto.setIsnew(rs.getString("isnew")); // 글쓰고 난뒤 며칠이 지났는지 시간
 
                 list.add(dto);
             }
@@ -67,8 +67,8 @@ public class BoardDAO {
     public int add(BoardDTO dto) {
 
         try {
-            String sql = "insert into borad (seq, id, subject, content, regdate, readcount, tag)"
-                    + " values (seqBoard.nextVal, ?, ?, ?, default, default, ?)";
+            String sql = "insert into tblboards (id, subject, content, regdate, readcount, tag)"
+                    + " values (?, ?, ?, default, default, ?)";
 
             pstmt = conn.prepareStatement(sql);
 
@@ -90,7 +90,8 @@ public class BoardDAO {
     //View 서블릿이 글번호를 줄테니 레코드 내용 전부를 DTO에 담아서 돌려주세요.
     public BoardDTO get(String seq){
         try{
-            String sql = "SELECT b.*, (SELECT name FROM tblUsers WHERE id = b.id) FROM board b WHERE seq = ?";
+
+            String sql = "SELECT * FROM tblboards INNER JOIN tblusers ON tblboards.id = tblusers.id  WHERE seq = ?";
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, seq);
 
@@ -119,7 +120,7 @@ public class BoardDAO {
     //View 서블릿이 글번호를 줄테니 조회수를 +1 해주세요!
     public void updateReadCount(String seq){
         try{
-            String sql = "UPDATE board SET readcount = readcount + 1 WHERE seq = ? ";
+            String sql = "UPDATE tblboards SET readcount = readcount + 1 WHERE seq = ? ";
 
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, seq);
