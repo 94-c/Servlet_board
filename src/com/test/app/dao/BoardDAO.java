@@ -29,7 +29,9 @@ public class BoardDAO {
 
         try {
 
-            String sql = "select * from tblboards inner join tblusers on tblboards.id = tblusers.id order by seq desc";
+            String sql = "SELECT tblBoards.seq,  tblusers.name, tblBoards.subject, tblBoards.regdate, tblBoards.readcount  " +
+                    "FROM tblboards INNER JOIN tblusers ON tblboards.id = tblusers.id " +
+                    "ORDER BY seq DESC;";
 
             pstmt = conn.prepareStatement(sql);
 
@@ -47,9 +49,9 @@ public class BoardDAO {
                 // dto.setId(rs.getString("id"));
                 dto.setName(rs.getString("name"));
                 dto.setSubject(rs.getString("subject"));
-                dto.setReadcount(rs.getString("readcount"));
                 dto.setRegdate(rs.getString("regdate"));
-                // dto.setIsnew(rs.getString("isnew")); // 글쓰고 난뒤 며칠이 지났는지 시간
+                dto.setReadcount(rs.getString("readcount"));
+                //dto.setIsnew(rs.getString("isnew")); // 글쓰고 난뒤 며칠이 지났는지 시간
 
                 list.add(dto);
             }
@@ -129,6 +131,41 @@ public class BoardDAO {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    // EditOk 서블릿이 수정할 DTO를 줄테니 update 해주세요!
+    public int edit(BoardDTO dto) {
+        try {
+            String sql = "UPDATE tblBoards SET subject=?, content=?, tag=? WHERE seq=?";
+
+            pstmt = conn.prepareStatement(sql);
+
+            pstmt.setString(1, dto.getSubject());
+            pstmt.setString(2, dto.getContent());
+            pstmt.setString(3, dto.getTag());
+            pstmt.setString(4, dto.getSeq());
+
+            return pstmt.executeUpdate(); // 성공시 1 실패시 0
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    //DelOk 서블릿이 글번호를 줄테니 글을 삭제해주세요!
+    public int del(String seq){
+        try{
+            String sql = "DELETE FROM tblBoards WHERE seq = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, seq);
+
+            return pstmt.executeUpdate(); // 성공시 1, 실패시 0
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return 0;
     }
 
 }

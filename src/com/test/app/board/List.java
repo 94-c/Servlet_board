@@ -30,7 +30,7 @@ public class List extends HttpServlet {
             // 날짜 > 시, 분, 초 제거
             String regdate = dto.getRegdate();
             regdate = regdate.substring(0, 10);
-            dto.setReadcount(regdate);
+            dto.setRegdate(regdate);
 
             String subject = dto.getSubject();
 
