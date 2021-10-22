@@ -36,9 +36,9 @@
                 <tr>
                     <td>${dto.seq}</td>
                     <td><a href="/myapp/board/view.do?seq=${dto.seq}">${dto.seq}</a>
-                    <c:if test="${dto.isnew < (2/24)}">
-                        <span class="label label-danger">new</span>
-                    </c:if>
+<%--                    <c:if test="${dto.isnew < (2/24)}">--%>
+<%--                        <span class="label label-danger">new</span>--%>
+<%--                    </c:if>--%>
                     </td>
                     <td>${dto.name}</td>
                     <td>${dto.regdate}</td>
