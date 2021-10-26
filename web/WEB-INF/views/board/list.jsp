@@ -102,8 +102,7 @@
                 <option value="name">이름</option>
                 <option value="all">제목+내용</option>
             </select>
-            <input type="text" name="search" id="search" class="form-control" required
-                   placeholder="검색어를 입력하세요."/>
+            <input type="text" name="search" id="search" class="form-control" required  placeholder="검색어를 입력하세요."/>
             <input type="submit" value="검색하기" class="btn btn-default" />
         </form>
 

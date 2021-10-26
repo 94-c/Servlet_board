@@ -21,6 +21,8 @@ public class List extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // 0. 검색 기능
         String column = req.getParameter("column");
+        System.out.println("column" + column);
+
         String search = req.getParameter("search");
         String isSearch = "n";
 
@@ -81,4 +83,6 @@ public class List extends HttpServlet {
         RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/board/list.jsp");
         dispatcher.forward(req,resp);
     }
+
+
 }

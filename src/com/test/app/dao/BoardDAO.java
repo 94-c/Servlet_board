@@ -30,7 +30,7 @@ public class BoardDAO {
 
         try {
 
-            String sql ="";
+            String where ="";
 
             if ( map.get("isSearch").equals("y") ) {
                 // 검색
@@ -39,22 +39,16 @@ public class BoardDAO {
                 // where all like '%날씨%'
 
                 if ( map.get("column").equals("all") ) {
-                    sql = "SELECT tblBoards.seq,  tblusers.name, tblBoards.subject, tblBoards.regdate, tblBoards.readcount " +
-                            "FROM tblboards INNER JOIN tblusers ON tblboards.id = tblusers.id  " +
-                            "WHERE subject = ?" +
-                            "ORDER BY seq DESC";
-                    pstmt = conn.prepareStatement(sql);
-                    pstmt.setString(1, rs.getString("subject"));
+                    where = String.format(" where subject like '%%%s%%' or content like '%%%s%%' "
+                            , map.get("search"), map.get("search"));
                 } else {
-
+                    where = String.format(" where %s like '%%%s%%' "
+                            , map.get("column"), map.get("search"));
                 }
 
             }
 
-//            String sql = String.format("SELECT tblBoards.seq,  tblusers.name, tblBoards.subject, tblBoards.regdate, tblBoards.readcount  " +
-//                    "FROM tblboards INNER JOIN tblusers ON tblboards.id = tblusers.id '%%%s%%'ORDER BY seq DESC", where);
-
-            sql = "SELECT tblBoards.seq,  tblusers.name, tblBoards.subject, tblBoards.regdate, tblBoards.readcount FROM tblboards INNER JOIN tblusers ON tblboards.id = tblusers.id  ORDER BY seq DESC";
+            String sql = String.format("SELECT * FROM tblboards INNER JOIN tblusers ON tblboards.id = tblusers.id  %s order by seq desc", where);
 
             pstmt = conn.prepareStatement(sql);
 
@@ -72,12 +66,13 @@ public class BoardDAO {
                 // dto.setId(rs.getString("id"));
                 dto.setName(rs.getString("name"));
                 dto.setSubject(rs.getString("subject"));
-                dto.setRegdate(rs.getString("regdate"));
                 dto.setReadcount(rs.getString("readcount"));
-                //dto.setIsnew(rs.getString("isnew")); // 글쓰고 난뒤 며칠이 지났는지 시간
+                dto.setRegdate(rs.getString("regdate"));
 
                 list.add(dto);
+
             }
+
             return list;
 
         } catch (Exception e) {
