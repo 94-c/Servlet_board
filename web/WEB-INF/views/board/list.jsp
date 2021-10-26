@@ -31,14 +31,38 @@
         .table td:nth-child(2) {
             text-align: left;
         }
+        .searchbox {
+            text-align: center;
+        }
+
+        .searchbox .form-control {
+            display: inline-block;
+            width: auto;
+        }
+
+        .searchbox #search {
+            width: 250px;
+        }
+
+        .searchBar {
+            margin: 10px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
 <%@ include file="/inc/header.jsp" %>
 
+
 <section class="main-section">
     <h1>Board<small>List</small></h1>
-
+    <!-- body -->
+    <!-- 상단에 검색내용, 갯수 출력하기 -->
+    <c:if test="${map.isSearch == 'y'}">
+        <div class="searchBar">
+            '${ map.search }'으로 검색한 결과 ${ list.size() }개의 게시물이 있습니다.
+        </div>
+    </c:if>
     <table class="table table-bordered">
         <tr>
             <th>번호</th>
@@ -67,8 +91,34 @@
         <button type="button" class="btn btn-primary" onclick="location.href='/myapp/board/add.do';">글쓰기</button>
         <button type="button" class="btn btn-default" onclick="location.reload();">새로고침</button>
     </div>
+
+    <!-- 검색기능 추가하기 -->
+    <div class="searchbox">
+
+        <form method="GET" action="/myapp/board/list.do">
+            <select name="column" id="column" class="form-control">
+                <option value="subject">제목</option>
+                <option value="content">내용</option>
+                <option value="name">이름</option>
+                <option value="all">제목+내용</option>
+            </select>
+            <input type="text" name="search" id="search" class="form-control" required
+                   placeholder="검색어를 입력하세요."/>
+            <input type="submit" value="검색하기" class="btn btn-default" />
+        </form>
+
+    </div>
 </section>
 
 <%@ include file="/inc/init.jsp" %>
 </body>
+<!-- script -->
+<script>
+
+    <c:if test="${map.isSearch == 'y'}">
+    $( '#column' ).val('${ map.column }');
+    $( '#search' ).val('${ map.search }');
+    </c:if>
+
+</script>
 </html>

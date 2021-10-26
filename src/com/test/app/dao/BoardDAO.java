@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class BoardDAO {
 
@@ -25,13 +26,35 @@ public class BoardDAO {
 
 
     // List 서블릿 - 게시판 목록을 보여주기
-    public ArrayList<BoardDTO> list() {
+    public ArrayList<BoardDTO> list(HashMap<String, String> map) {
 
         try {
 
-            String sql = "SELECT tblBoards.seq,  tblusers.name, tblBoards.subject, tblBoards.regdate, tblBoards.readcount  " +
-                    "FROM tblboards INNER JOIN tblusers ON tblboards.id = tblusers.id " +
-                    "ORDER BY seq DESC;";
+            String sql ="";
+
+            if ( map.get("isSearch").equals("y") ) {
+                // 검색
+                // where name like '%홍길동%'
+                // where subject like '%날씨%'
+                // where all like '%날씨%'
+
+                if ( map.get("column").equals("all") ) {
+                    sql = "SELECT tblBoards.seq,  tblusers.name, tblBoards.subject, tblBoards.regdate, tblBoards.readcount " +
+                            "FROM tblboards INNER JOIN tblusers ON tblboards.id = tblusers.id  " +
+                            "WHERE subject = ?" +
+                            "ORDER BY seq DESC";
+                    pstmt = conn.prepareStatement(sql);
+                    pstmt.setString(1, rs.getString("subject"));
+                } else {
+
+                }
+
+            }
+
+//            String sql = String.format("SELECT tblBoards.seq,  tblusers.name, tblBoards.subject, tblBoards.regdate, tblBoards.readcount  " +
+//                    "FROM tblboards INNER JOIN tblusers ON tblboards.id = tblusers.id '%%%s%%'ORDER BY seq DESC", where);
+
+            sql = "SELECT tblBoards.seq,  tblusers.name, tblBoards.subject, tblBoards.regdate, tblBoards.readcount FROM tblboards INNER JOIN tblusers ON tblboards.id = tblusers.id  ORDER BY seq DESC";
 
             pstmt = conn.prepareStatement(sql);
 
