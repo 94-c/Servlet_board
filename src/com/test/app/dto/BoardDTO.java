@@ -9,6 +9,7 @@ public class BoardDTO {
     private String regdate;
     private String readcount;
     private String tag;
+    private String ccnt;
 
     // 가상 컬럼(추가멤버)
     private String name; //이름
@@ -84,5 +85,13 @@ public class BoardDTO {
 
     public void setIsnew(String isnew) {
         this.isnew = isnew;
+    }
+
+    public String getCcnt() {
+        return ccnt;
+    }
+
+    public void setCcnt(String ccnt) {
+        this.ccnt = ccnt;
     }
 }

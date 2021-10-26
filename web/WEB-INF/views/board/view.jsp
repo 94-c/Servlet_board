@@ -10,6 +10,28 @@
         .main-section .table th { width: 120px; }
         .main-section .table td { width: 280px; text-align: left; }
         .main-section .table tr:nth-child(4) td { height: 300px; }
+        #tblAddCommnet, #tblListComment { width: 700px; margin: 15px auto; }
+
+        #tblAddComment { margin-top: 30px; }
+        #tblAddComment td:nth-child(1) { width: 600px; }
+        #tblAddComment td:nth-child(2) { width: 100px; }
+
+        #tblListComment td:nth-child(1) { width: 600px; }
+        #tblListComment td:nth-child(2) { width: 100px; }
+
+        #tblListComment td {
+            position: relative;
+            left: 0;
+            top: 0;
+        }
+
+        #tblListComment td span {
+            position: absolute;
+            right: 10px;
+            bottom: 5px;
+            color: #AAA;
+            font-size: 11px;
+        }
     </style>
 </head>
 <body>
@@ -56,7 +78,40 @@
 
     </div>
 
+
+    <table id="tblListComment" class="table table-bordered">
+
+        <c:if test="${ clist.size() == 0 }">
+            <tr>
+                <td colspan="2">댓글이 없습니다.</td>
+            </tr>
+        </c:if>
+
+        <c:forEach items="${ clist }" var="cdto">
+            <tr>
+                <td>
+                        ${ cdto.content }
+                    <span>${ cdto.name }. ${ cdto.regdate }</span>
+                </td>
+                <td>
+                    <input type="button" value="삭제하기" class="btn btn-default"
+                           onclick="location.href='/myapp/board/delcomment.do?seq=${ cdto.seq }&pseq=${ dto.seq }';"/>
+                </td>
+            </tr>
+        </c:forEach>
+    </table>
+
+    <form method="POST" action="/myapp/board/addcomment.do">
+        <table id="tblAddComment" class="table table-bordered">
+            <tr>
+                <td><input type="text" name="content" id="content" class="form-control" required placeholder="댓글을 작성하세요. "/></td>
+                <td><input type="submit" value="댓글쓰기" class="btn btn-primary" /></td>
+            </tr>
+        </table>
+        <input type="hidden" name="pseq" value="${ dto.seq }" />
+    </form>
 </section>
+
 
 <%@ include file="/inc/init.jsp" %>
 </body>

@@ -2,6 +2,7 @@ package com.test.app.board;
 
 import com.test.app.dao.BoardDAO;
 import com.test.app.dto.BoardDTO;
+import com.test.app.dto.CommentDTO;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 
 @WebServlet("/board/view.do")
 public class View extends HttpServlet {
@@ -36,6 +38,7 @@ public class View extends HttpServlet {
         // 2.5 글 내용 (태그를 이용해서 악용하는 사람들 방지를 위한 코드)
         String subject = dto.getSubject();
         String content = dto.getContent();
+        ArrayList<CommentDTO> clist = dao.listComment(seq);
 
         // 무조건 글 제목과 내용에 들어있는 <script>태그는 비활성화 시키기!!
         subject = subject.replace("<script", "%lt;script").replace("</script>", "&lt;/script&gt;");
@@ -56,6 +59,7 @@ public class View extends HttpServlet {
 
         // 3. BoardDTO 반환 > JSP 호출하기 + 전달하기
         req.setAttribute("dto", dto);
+        req.setAttribute("clist", clist);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/board/view.jsp");
         dispatcher.forward(req, resp);
