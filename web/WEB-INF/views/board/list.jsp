@@ -92,7 +92,10 @@
     </table>
 
     <div class="btns">
-        <button type="button" class="btn btn-primary" onclick="location.href='/myapp/board/add.do';">글쓰기</button>
+        <!--인증 티켓 소유자만 보이게 하기 -->
+        <c:if test="${ not empty id}">
+            <button type="button" class="btn btn-primary" onclick="location.href='/myapp/board/add.do';">글쓰기</button>
+        </c:if>
         <button type="button" class="btn btn-default" onclick="location.reload();">새로고침</button>
     </div>
 
