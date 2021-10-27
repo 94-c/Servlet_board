@@ -65,51 +65,70 @@
         </tr>
     </table>
 
+    <!-- 수정/삭제 기능 -->
     <div class="btns">
+        <!-- 로그인 확인 -->
+        <c:if test="${not empty id}">
+            <c:if test="${dto.id == id}">
+                <button type="button" class="btn btn-primary"
+                        onclick="location.href='/myapp/board/edit.do?seq=${ dto.seq }';">수정하기</button>
 
-        <button type="button" class="btn btn-primary"
-                onclick="location.href='/myapp/board/edit.do?seq=${ dto.seq }';">수정하기</button>
-
-        <button type="button" class="btn btn-primary"
-                onclick="location.href='/myapp/board/del.do?seq=${ dto.seq }';">삭제하기</button>
+                <button type="button" class="btn btn-primary"
+                        onclick="location.href='/myapp/board/del.do?seq=${ dto.seq }';">삭제하기</button>
+            </c:if>
+                <button type="button" class="btn btn-primary"
+                        onclick="location.href='/myapp/board/add.do';">답변달기</button>
+        </c:if>
 
         <button type="button" class="btn btn-default"
                 onclick="location.href='/myapp/board/list.do';">돌아가기</button>
 
     </div>
 
+    <!-- 댓글 기능 -->
+    <div>
+        <table id="tblListComment" class="table table-bordered">
 
-    <table id="tblListComment" class="table table-bordered">
+            <c:if test="${ clist.size() == 0 }">
+                <tr>
+                    <td colspan="2">댓글이 없습니다.</td>
+                </tr>
+            </c:if>
 
-        <c:if test="${ clist.size() == 0 }">
-            <tr>
-                <td colspan="2">댓글이 없습니다.</td>
-            </tr>
+            <c:forEach items="${ clist }" var="cdto">
+                <tr>
+                    <td>
+                            ${ cdto.content }
+                        <span>${ cdto.name }. ${ cdto.regdate }</span>
+                    </td>
+                    <td>
+                        <!-- 사용자 걸러내기 -->
+                        <c:if test="${not empty id}">
+                            <c:if test="${cdto.id == id}">
+                                <input type="button" value="삭제하기" class="btn btn-default"
+                                       onclick="location.href='/myapp/board/delcomment.do?seq=${ cdto.seq }&pseq=${ dto.seq }';"/>
+                            </c:if>
+                        </c:if>
+
+                    </td>
+                </tr>
+            </c:forEach>
+        </table>
+
+        <!-- 사용자 걸러내기 -->
+        <c:if test="${not empty id}">
+            <form method="POST" action="/myapp/board/addcomment.do">
+                <table id="tblAddComment" class="table table-bordered">
+                    <tr>
+                        <td><input type="text" name="content" id="content" class="form-control" required placeholder="댓글을 작성하세요. "/></td>
+                        <td><input type="submit" value="댓글쓰기" class="btn btn-primary" /></td>
+                    </tr>
+                </table>
+                <input type="hidden" name="pseq" value="${ dto.seq }" />
+            </form>
         </c:if>
 
-        <c:forEach items="${ clist }" var="cdto">
-            <tr>
-                <td>
-                        ${ cdto.content }
-                    <span>${ cdto.name }. ${ cdto.regdate }</span>
-                </td>
-                <td>
-                    <input type="button" value="삭제하기" class="btn btn-default"
-                           onclick="location.href='/myapp/board/delcomment.do?seq=${ cdto.seq }&pseq=${ dto.seq }';"/>
-                </td>
-            </tr>
-        </c:forEach>
-    </table>
-
-    <form method="POST" action="/myapp/board/addcomment.do">
-        <table id="tblAddComment" class="table table-bordered">
-            <tr>
-                <td><input type="text" name="content" id="content" class="form-control" required placeholder="댓글을 작성하세요. "/></td>
-                <td><input type="submit" value="댓글쓰기" class="btn btn-primary" /></td>
-            </tr>
-        </table>
-        <input type="hidden" name="pseq" value="${ dto.seq }" />
-    </form>
+    </div>
 </section>
 
 
