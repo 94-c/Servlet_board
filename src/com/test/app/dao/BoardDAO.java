@@ -48,7 +48,11 @@ public class BoardDAO {
                 }
 
             }
-            String sql = String.format("SELECT * FROM tblboards INNER JOIN tblusers ON tblboards.id = tblusers.id  %s order by seq desc", where);
+            String sql = String.format("SELECT * FROM (SELECT  v.*, @rownum:=@rownum+1  rnum FROM  vwboard v %s) list WHERE %s AND %s ORDER BY seq DESC ;"
+                    , where
+                    , map.get("begin")
+                    , map.get("end"));
+
             pstmt = conn.prepareStatement(sql);
             rs = pstmt.executeQuery();
 

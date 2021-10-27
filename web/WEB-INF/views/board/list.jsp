@@ -91,12 +91,16 @@
         </c:forEach>
     </table>
 
-    <div class="btns">
+    <div class="btns" style="text-align: right">
         <!--인증 티켓 소유자만 보이게 하기 -->
         <c:if test="${ not empty id}">
             <button type="button" class="btn btn-primary" onclick="location.href='/myapp/board/add.do';">글쓰기</button>
         </c:if>
         <button type="button" class="btn btn-default" onclick="location.reload();">새로고침</button>
+    </div>
+
+    <div class="pagebar" style="text-align: center">
+        ${ pagebar }
     </div>
 
     <!-- 검색기능 추가하기 -->
@@ -115,9 +119,7 @@
 
     </div>
 </section>
-<div class="pagebar">
-    ${ pagebar }
-</div>
+
 
 
 <%@ include file="/inc/init.jsp" %>
