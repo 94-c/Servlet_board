@@ -76,6 +76,10 @@
             <tr>
                 <td class="text-center">${dto.seq}</td>
                 <td class="text-center"><a href="/myapp/board/view.do?seq=${dto.seq}">${dto.subject}</a>
+                    <!--게시판 리스트 페이지에서 댓글수 출력-->
+                    <c:if test="${dto.ccnt > 0}">
+                        <span class="badge">${dto.ccnt}</span>
+                    </c:if>
                     <c:if test="${dto.isnew < (2/24)}">
                         <span class="label label-danger">new</span>
                     </c:if>

@@ -66,7 +66,8 @@ public class BoardDAO {
                 dto.setSubject(rs.getString("subject"));
                 dto.setReadcount(rs.getString("readcount"));
                 dto.setRegdate(rs.getString("regdate"));
-                //dto.setCcnt(rs.getString("ccnt"));  // 현재 글에 달린 댓글 갯수
+               // dto.setIsnew(rs.getString("isnew"));
+               // dto.setCcnt(rs.getString("ccnt"));  // 현재 글에 달린 댓글 갯수
 
 
                 list.add(dto);
@@ -189,8 +190,8 @@ public class BoardDAO {
         try {
 
             // 부모글 번호를 조건으로 받기
-            String sql = "select c.*, (select name from tblUsers where id = c.id) as name "
-                    + "from tblComment c where pseq = ? order by seq asc";
+            String sql = "SELECT c.*, (SELECT name FROM tblUsers WHERE id = c.id) AS name "
+                    + "FROM tblComment c WHERE pseq = ? ORDER BY seq ASC";
 
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, seq);
@@ -223,22 +224,46 @@ public class BoardDAO {
     public int addComment(CommentDTO dto) {
 
         try {
-
-            String sql = "insert into tblComment (id, content, regdate, pseq) values ( ?, ?, now(), ?)";
+            String sql = "INSERT INTO tblComment (id, content, regdate, pseq) VALUES ( ?, ?, now(), ?)";
 
             pstmt = conn.prepareStatement(sql);
-
             pstmt.setString(1, dto.getId());
             pstmt.setString(2, dto.getContent());
             pstmt.setString(3, dto.getPseq());
-
             return pstmt.executeUpdate(); // 성공시 1 실패시 0
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return 0;
     }
 
+    //댓글 삭제
+    public int delComment(String seq){
+        try{
+            String sql = "DELETE FROM tblComment WHERE seq = ?";
+
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, seq);
+
+            return pstmt.executeUpdate(); // 성공시 1 실패시 0
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    //댓글 전체 삭제
+    public void delAllComment(String seq){
+        try {
+            String sql = "DELETE FROM tblComment WHERE pesq = ?";
+
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, seq);
+            pstmt.executeUpdate(); // 성공시 1, 실패시 0
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }
