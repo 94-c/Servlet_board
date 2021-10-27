@@ -133,6 +133,34 @@ public class BoardDAO {
         }
         return null;
     }
+    //총 게시물 수를 구하기
+    public int getTotalCount(HashMap<String,String> map){
+        try {
+            String where = "";
+            if ( map.get("isSearch").equals("y") ) {
+                if ( map.get("column").equals("all") ) {
+                    where = String.format(" where subject like '%%%s%%' or content like '%%%s%%' "
+                            , map.get("search"), map.get("search"));
+                } else {
+                    where = String.format(" where %s like '%%%s%%' "
+                            , map.get("column"), map.get("search"));
+                }
+            }
+
+            String sql = String.format("SELECT COUNT(*) AS cnt FROM tblBoards %s", where);
+
+            pstmt = conn.prepareStatement(sql);
+
+            rs = pstmt.executeQuery();
+
+            if (rs.next()){
+                return rs.getInt("cnt");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
     //View 서블릿이 글번호를 줄테니 조회수를 +1 해주세요!
     public void updateReadCount(String seq){

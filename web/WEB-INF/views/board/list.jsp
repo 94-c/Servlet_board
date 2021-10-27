@@ -115,6 +115,10 @@
 
     </div>
 </section>
+<div class="pagebar">
+    ${ pagebar }
+</div>
+
 
 <%@ include file="/inc/init.jsp" %>
 </body>
