@@ -19,7 +19,7 @@ public class AddComment extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         // 1. 데이터 가져오기(content, pesq)
-        String pesq = req.getParameter("pesq");  // 보고있던 글번호(=작성중인 댓글의 부모 글번호)
+        String pseq = req.getParameter("pseq");  // 보고있던 글번호(=작성중인 댓글의 부모 글번호)
         String content = req.getParameter("content");
 
         // 2. DB작업 > DAO 위임 > insert
@@ -29,14 +29,14 @@ public class AddComment extends HttpServlet {
         HttpSession session = req.getSession();
 
         dto.setId(session.getAttribute("id").toString());
-        dto.setPseq(pesq);
+        dto.setPseq(pseq);
         dto.setContent(content);
 
         int result = dao.addComment(dto); // 1, 0
 
         // 3. 돌아가기 > view.do?seq=10
         if (result == 1){
-            resp.sendRedirect("/myapp/board/view.do?seq=" + pesq);
+            resp.sendRedirect("/myapp/board/view.do?seq=" + pseq);
         }else {
             resp.setCharacterEncoding("UTF-8");
 

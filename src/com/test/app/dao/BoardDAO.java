@@ -224,7 +224,7 @@ public class BoardDAO {
 
         try {
 
-            String sql = "insert into tblComment (id, content, regdate, pseq) values ( ?, ?, default, ?)";
+            String sql = "insert into tblComment (id, content, regdate, pseq) values ( ?, ?, now(), ?)";
 
             pstmt = conn.prepareStatement(sql);
 
